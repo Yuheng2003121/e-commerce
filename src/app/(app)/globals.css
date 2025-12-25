@@ -125,3 +125,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.button-active {
+  @apply bg-white border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-1 -translate-y-1;
+}
