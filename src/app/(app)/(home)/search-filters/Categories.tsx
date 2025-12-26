@@ -1,16 +1,18 @@
 "use client";
 import CategoryDropdown from "./CategoryDropdown";
-import { CustomCategory } from "../types";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
 import CategoriesSidebar from "./CategoriesSidebar";
+import {  useSuspenseQuery } from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
-interface CategoriesProps {
-  data: CustomCategory[];
-}
-export default function Categories({ data }: CategoriesProps) {
+
+export default function Categories() {
+  const trpc = useTRPC();
+  const {data} = useSuspenseQuery(trpc .categories.getMany.queryOptions());
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const measureRef = useRef<HTMLDivElement | null>(null);
   const viewAllRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +69,6 @@ export default function Categories({ data }: CategoriesProps) {
       <CategoriesSidebar
         open={isSidebarOpen}
         onOpenChange={setIsSidebarOpen}
-        data={data}
       />
 
       {/* Hidden div to meausre all items */}
