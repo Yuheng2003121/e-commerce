@@ -1,15 +1,18 @@
+"use client"
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { formatAsCurrency } from "./PriceFilter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { generateTenantUrl } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 interface ProductCardProps {
   id: string;
   name: string;
   imageUrl?: string | null;
-  authorUsername: string;
-  authorImageUrl?: string | null;
+  tenantSlug: string;
+  tenantImageUrl?: string | null;
   reviewRating: number;
   reviewCount: number;
   price: number;
@@ -18,12 +21,20 @@ export default function ProductCard({
   id,
   name,
   imageUrl,
-  authorUsername,
-  authorImageUrl,
+  tenantSlug,
+  tenantImageUrl,
   reviewRating,
   reviewCount,
   price,
 }: ProductCardProps) {
+  const router = useRouter();
+  const handleUserClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    router.push(generateTenantUrl(tenantSlug));
+  };
+
   return (
     <Link href={`/products/${id}`}>
       <div className="border rounded-md bg-white overflow-hidden flex flex-col hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] hover:-translate-y-2 hover:translate-x-1 transform transition-all duration-300">
@@ -37,17 +48,17 @@ export default function ProductCard({
         </div>
         <div className="p-4 border-y flex flex-col gap-3">
           <h2 className="text-lg font-medium line-clamp-2">{name}</h2>
-          <div className="flex items-center gap-2">
-            {authorImageUrl && (
+          <div className="flex items-center gap-2" onClick={handleUserClick}>
+            {tenantImageUrl && (
               <Image
-                alt={authorUsername}
-                src={authorImageUrl}
+                alt={tenantSlug}
+                src={tenantImageUrl}
                 width={16}
                 height={16}
                 className="rounded-full border shrink-0 size-4"
               />
             )}
-            <p className="tex-sm underline font-medium">{authorUsername}</p>
+            <p className="tex-sm hover:underline font-medium">{tenantSlug}</p>
           </div>
           {reviewCount > 0 && (
             <div className="flex items-center gap-1">

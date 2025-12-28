@@ -21,7 +21,7 @@ export default async function CategoryPage({ searchParams }: CategoryPageProps) 
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProductListView />
+      <ProductListView narrowView={true}/>
     </HydrationBoundary>
   );
 }
