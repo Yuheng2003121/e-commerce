@@ -1,13 +1,16 @@
-import { Category } from "@/payload-types";
+import { Category, Media } from "@/payload-types";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { Sort, Where } from "payload";
 import z from "zod";
 import { sortValues } from "../searchParams";
+import { DEFAULT_LIMIT } from "@/modules/tags/constants";
 
 export const productsRouter = createTRPCRouter({
   getMany: baseProcedure
     .input(
       z.object({
+        cursor: z.number().default(1),
+        limit: z.number().default(DEFAULT_LIMIT),
         category: z.string().nullable().optional(),
         minPrice: z.string().nullable().optional(),
         maxPrice: z.string().nullable().optional(),
@@ -37,6 +40,7 @@ export const productsRouter = createTRPCRouter({
         };
       }
 
+      
 
       if (input.category) {
         if (
@@ -59,8 +63,6 @@ export const productsRouter = createTRPCRouter({
           };
         }
 
-
-
         const categoriesData = await ctx.db.find({
           collection: "categories",
           limit: 1,
@@ -72,8 +74,6 @@ export const productsRouter = createTRPCRouter({
           },
         });
 
-
-
         const formattedData = categoriesData.docs.map((doc) => ({
           ...doc,
           subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
@@ -84,7 +84,7 @@ export const productsRouter = createTRPCRouter({
         const category = formattedData[0];
         
 
-        if (category.subcategories) {
+        if (!!category.subcategories.length) {
 
           //case with subcategories
           where["category.slug"] = {
@@ -95,7 +95,7 @@ export const productsRouter = createTRPCRouter({
           //case without subcategories
           where["category.slug"] = {
             equals: category.slug
-          }
+          };
         }
       } 
 
@@ -111,8 +111,16 @@ export const productsRouter = createTRPCRouter({
         depth: 1,
         where,
         sort,
+        page: input.cursor,
+        limit: input.limit,
       });
 
-      return products;
+      return {
+        ...products,
+        docs:products.docs.map(doc => ({
+          ...doc,
+          image: doc.image as Media | null
+        }))
+      };
     }),
 });

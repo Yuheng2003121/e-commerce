@@ -65,7 +65,7 @@ export default function ProductFilter() {
   }
 
   return (
-    <div className="border rounded-md bg-white min-h-0 overflow-y-auto">
+    <div className="border rounded-md bg-white min-h-0 max-h-f overflow-y-auto">
       <div className="p-4 border-b flex items-center justify-between">
         <p className="font-medium">Filters</p>
         {hasAnyFilters && (
@@ -93,6 +93,7 @@ export default function ProductFilter() {
           onChange={(value) => onChange("tags", value)}
         />
       </Filter>
+   
     </div>
   );
 }

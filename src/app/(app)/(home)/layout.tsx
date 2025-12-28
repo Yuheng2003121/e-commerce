@@ -10,7 +10,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions());
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <SearchFilter />
