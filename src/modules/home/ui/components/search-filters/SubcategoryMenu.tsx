@@ -4,12 +4,10 @@ import { CategoriesGetManyOutput } from "@/modules/categories/types";
 interface SubcategoryMenuProps {
   category: CategoriesGetManyOutput[0];
   isOpen: boolean;
-  position: { top: number; left: number };
 }
 export default function SubcategoryMenu({
   category,
   isOpen,
-  position,
 }: SubcategoryMenuProps) {
   if (!isOpen || !category.subcategories) {
     return null;
@@ -20,10 +18,10 @@ export default function SubcategoryMenu({
 
   return (
     <div
-      className="fixed z-100"
+      className="absolute z-100"
       style={{
-        top: `${position.top}px`,
-        left: `${position.left}px`,
+        top: `100%`,
+        left: `0px`,
       }}
     >
       {/* Invisible bridge to maintain hover */}

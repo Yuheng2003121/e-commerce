@@ -4,7 +4,7 @@ import ProductFilter from "../components/ProductFilter";
 import ProductList, { ProductListSkeleton } from "../components/ProductList";
 
 interface ProductListViewProps {
-  category: string;
+  category?: string;
 }
 
 export default function ProductListView({ category }: ProductListViewProps) {

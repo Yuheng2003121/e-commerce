@@ -4,16 +4,14 @@ import { useProductFilters } from "@/hooks/use-product-filters";
 import { useTRPC } from "@/trpc/client";
 import {
   useSuspenseInfiniteQuery,
-  useSuspenseQuery,
 } from "@tanstack/react-query";
 import ProductCard, { ProductCardSkeleton } from "./ProductCard";
 import { DEFAULT_LIMIT } from "@/modules/tags/constants";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { InboxIcon } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductListProps {
-  category: string;
+  category?: string;
 }
 export default function ProductList({ category }: ProductListProps) {
   const [filters] = useProductFilters();
