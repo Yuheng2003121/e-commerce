@@ -8,6 +8,8 @@ import sharp from "sharp";
 import { Users } from "./collections/Users.ts";
 import { Media } from "./collections/Media.ts";
 import { Categories } from "./collections/Categories.ts";
+import { Products } from "./collections/Products.ts";
+import { Tags } from "./collections/Tags.ts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -19,7 +21,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories],
+  // cookiePrefix:'funroad',
+  collections: [Users, Media, Categories, Products, Tags],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
