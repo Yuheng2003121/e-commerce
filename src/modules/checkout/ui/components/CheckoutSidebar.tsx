@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { formatAsCurrency } from "@/modules/products/ui/components/PriceFilter";
+import { CircleXIcon } from "lucide-react";
 import React from "react";
 interface CheckoutSidebarProps {
   totalPrice: number;
@@ -32,6 +33,17 @@ export default function CheckoutSidebar({
           Checkout
         </Button>
       </div>
+
+      {isCanceled && (
+        <div className="p-4 border-t">
+          <div className="bg-red-100 border-red-400 font-medium px-4 py-3 rounded-md ">
+            <div className="flex items-center">
+              <CircleXIcon className="size-6 mr-2 fill-red-500 text-red-100"/>
+              <span>Checkout failed. Please try again</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -108,6 +108,17 @@ export const productsRouter = createTRPCRouter({
           })),
         }));
         const category = formattedData[0];
+        if (!category) {
+          return {
+            docs: [],
+            totalDocs: 0,
+            limit: input.limit,
+            page: input.cursor,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPrevPage: false,
+          };
+        }
         
 
         if (!!category.subcategories.length) {
