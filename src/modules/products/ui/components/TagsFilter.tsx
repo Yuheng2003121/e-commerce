@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DEFAULT_LIMIT } from "@/modules/tags/constants";
+import { DEFAULT_LIMIT } from "@/constants";
 import { useTRPC } from "@/trpc/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
@@ -32,8 +32,7 @@ export default function TagsFilter({ values, onChange }: TasFilterProps) {
     } else {
       onChange([...(values || []), tag]);
     }
-
-  }
+  };
 
   return (
     <div className="flex flex-col gap-2">

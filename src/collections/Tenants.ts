@@ -44,7 +44,6 @@ export const Tenants: CollectionConfig = {
       type: "text",
       required: true,
       admin: {
-        readOnly: true,
         description: "Stripe Account ID for this store.",
       },
       access: {
@@ -55,7 +54,6 @@ export const Tenants: CollectionConfig = {
       name: "stripeDetailsSubmitted",
       type: "checkbox",
       admin: {
-        readOnly: true,
         description:
           "You cannot create products until you have submitted your Stripe account details.",
       },

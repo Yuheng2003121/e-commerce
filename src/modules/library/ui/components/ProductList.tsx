@@ -2,7 +2,7 @@
 
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { DEFAULT_LIMIT } from "@/modules/tags/constants";
+import { DEFAULT_LIMIT } from "@/constants";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { InboxIcon } from "lucide-react";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
 import { loadProductFilters } from "@/modules/products/searchParams";
 import ProductListView from "@/modules/products/ui/views/ProductListView";
-import { DEFAULT_LIMIT } from "@/modules/tags/constants";
+import { DEFAULT_LIMIT } from "@/constants";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { SearchParams } from "nuqs";
@@ -27,7 +27,7 @@ export default async function TenantsPage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProductListView tenantSlug={slug}/>
+      <ProductListView tenantSlug={slug} />
     </HydrationBoundary>
   );
 }

@@ -25,9 +25,21 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      beforeNavLinks: ["@/components/StripeVerify.tsx#StripeVerify"],
+    },
   },
   // cookiePrefix:'funroad',
-  collections: [Users, Media, Categories, Products, Tags, Tenants, Orders, Reviews],
+  collections: [
+    Users,
+    Media,
+    Categories,
+    Products,
+    Tags,
+    Tenants,
+    Orders,
+    Reviews,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
@@ -37,15 +49,15 @@ export default buildConfig({
     url: process.env.DATABASE_URL || "",
   }),
   sharp,
-   plugins: [
+  plugins: [
     multiTenantPlugin<Config>({
       collections: {
-       products: {},
+        products: {},
       },
       tenantsArrayField: {
         includeDefaultField: false,
       },
-      userHasAccessToAllTenants: (user) => isSuperAdmin(user)
+      userHasAccessToAllTenants: (user) => isSuperAdmin(user),
     }),
   ],
 });

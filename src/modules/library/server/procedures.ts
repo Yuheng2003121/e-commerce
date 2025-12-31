@@ -1,7 +1,11 @@
-import {  Media, Tenant } from "@/payload-types";
-import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { Media, Tenant } from "@/payload-types";
+import {
+  baseProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from "@/trpc/init";
 import z from "zod";
-import { DEFAULT_LIMIT } from "@/modules/tags/constants";
+import { DEFAULT_LIMIT } from "@/constants";
 import { TRPCError } from "@trpc/server";
 
 export const libraryRouter = createTRPCRouter({
@@ -18,15 +22,15 @@ export const libraryRouter = createTRPCRouter({
         pagination: false,
         where: {
           and: [
-            {products: {equals: input.productId}},
-            {user: {equals: ctx.session.user.id}}
-          ]
+            { products: { equals: input.productId } },
+            { user: { equals: ctx.session.user.id } },
+          ],
         },
       });
 
       const order = ordersData.docs[0];
       if (!order) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" })
+        throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" });
       }
 
       const product = await ctx.db.findByID({

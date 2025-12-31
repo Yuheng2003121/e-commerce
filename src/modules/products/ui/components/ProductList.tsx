@@ -2,11 +2,9 @@
 
 import { useProductFilters } from "@/hooks/use-product-filters";
 import { useTRPC } from "@/trpc/client";
-import {
-  useSuspenseInfiniteQuery,
-} from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import ProductCard, { ProductCardSkeleton } from "./ProductCard";
-import { DEFAULT_LIMIT } from "@/modules/tags/constants";
+import { DEFAULT_LIMIT } from "@/constants";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { InboxIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,7 +14,11 @@ interface ProductListProps {
   tenantSlug?: string;
   narrowView?: boolean;
 }
-export default function ProductList({ category, tenantSlug, narrowView }: ProductListProps) {
+export default function ProductList({
+  category,
+  tenantSlug,
+  narrowView,
+}: ProductListProps) {
   const [filters] = useProductFilters();
   const trpc = useTRPC();
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
@@ -94,7 +96,11 @@ export default function ProductList({ category, tenantSlug, narrowView }: Produc
   );
 }
 
-export const ProductListSkeleton = ({narrowView}: {narrowView?: boolean}) => {
+export const ProductListSkeleton = ({
+  narrowView,
+}: {
+  narrowView?: boolean;
+}) => {
   return (
     <div
       className={cn(

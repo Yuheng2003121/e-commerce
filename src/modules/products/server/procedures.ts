@@ -3,7 +3,7 @@ import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { Sort, Where } from "payload";
 import z from "zod";
 import { sortValues } from "../searchParams";
-import { DEFAULT_LIMIT } from "@/modules/tags/constants";
+import { DEFAULT_LIMIT } from "@/constants";
 import { headers as getHeaders } from "next/headers";
 
 export const productsRouter = createTRPCRouter({
@@ -68,7 +68,7 @@ export const productsRouter = createTRPCRouter({
 
       if (reviews.totalDocs > 0) {
         reviews.docs.forEach((review) => {
-          ratingDistribution[review.rating]+=1;
+          ratingDistribution[review.rating] += 1;
         });
 
         Object.keys(ratingDistribution).map((key) => {
@@ -78,7 +78,7 @@ export const productsRouter = createTRPCRouter({
           ratingDistribution[key] = Math.round(
             (count / reviews.totalDocs) * 100
           );
-        })
+        });
       }
 
       return {
@@ -87,7 +87,7 @@ export const productsRouter = createTRPCRouter({
         image: product.image as Media | null,
         tenant: product.tenant as Tenant & { image: Media | null },
         reviewRating,
-        reviewCount:reviews.totalDocs,
+        reviewCount: reviews.totalDocs,
         ratingDistribution,
       };
     }),
@@ -213,9 +213,9 @@ export const productsRouter = createTRPCRouter({
         sort,
         page: input.cursor,
         limit: input.limit,
-        select:{
-          content: false
-        }
+        select: {
+          content: false,
+        },
       });
 
       const dataWithSummarizedReviews = await Promise.all(

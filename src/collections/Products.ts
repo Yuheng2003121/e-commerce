@@ -6,6 +6,7 @@ export const Products: CollectionConfig = {
   slug: "products",
   admin: {
     useAsTitle: "name",
+    description: "You must verify your Stripe account before you can create products."
   },
 
   access: {

@@ -27,6 +27,7 @@ export async function POST(req: Request) {
 
   const permittedEvents: string[] = [
     "checkout.session.completed",
+    "account.updated",
     // "checkout.session.async_payment_succeeded",
     // "checkout.session.async_payment_failed",
   ];
@@ -49,7 +50,8 @@ export async function POST(req: Request) {
 
           const expandedSession = await stripe.checkout.sessions.retrieve(
             data.id,
-            { expand: ["line_items.data.price.product"] }
+            { expand: ["line_items.data.price.product"] },
+            { stripeAccount: event.account }
           );
 
           if (
@@ -67,12 +69,26 @@ export async function POST(req: Request) {
               collection: "orders",
               data: {
                 stripeCheckoutSessionId: data.id,
+                stripeAccountId: event.account,
                 user: user.id,
                 products: lineItem.price.product.metadata.id,
                 name: lineItem.price.product.name,
               },
             });
           }
+          break;
+
+        case "account.updated":
+          data = event.data.object as Stripe.Account;
+          await payload.update({
+            collection: "tenants",
+            where: {
+              stripeAccountId: { equals: data.id },
+            },
+            data: {
+              stripeDetailsSubmitted: data.details_submitted,
+            },
+          });
           break;
 
         default:

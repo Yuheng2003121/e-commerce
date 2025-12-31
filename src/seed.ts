@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { getPayload, Payload } from "payload";
 import config from "@payload-config";
+import { stripe } from "./lib/stripe";
 
 const categories = [
   {
@@ -139,6 +140,17 @@ const categories = [
 ];
 
 const seed = async (payload: Payload) => {
+  const adminAccount = await stripe.accounts.create({})
+  const adminTenant = await payload.create({
+    collection: "tenants",
+    data: {
+      name: "admin",
+      slug: "admin",
+      stripeAccountId: adminAccount.id,
+    }
+  })
+
+
   await payload.create({
     collection: "users",
     data: {
@@ -146,8 +158,14 @@ const seed = async (payload: Payload) => {
       username: "admin",
       roles: ["super-admin"],
       password: "demo",
+      tenants: [
+        {
+          tenant: adminTenant.id
+        }
+      ]
     }
   })
+
 
 
   for (const category of categories) {
