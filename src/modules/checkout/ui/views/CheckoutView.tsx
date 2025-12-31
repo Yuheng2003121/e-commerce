@@ -1,9 +1,9 @@
 "use client";
 
 import { useTRPC } from "@/trpc/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCart } from "../../store/use-cart-store";
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import { generateTenantUrl } from "@/lib/utils";
 import CheckoutItem from "../components/CheckoutItem";
@@ -33,24 +33,28 @@ export default function CheckoutView({ tenantSlug }: CheckoutViewProps) {
     })
   );
 
-  const purchase = useMutation(trpc.checkout.purchase.mutationOptions({
-    onMutate: () => {
-      setStates({
-        cancel: false,
-        success: false,
-      });
-    },
-    onSuccess: (data) => { 
-      window.location.href = data.url;
-    },
+  const queryClient = useQueryClient();
 
-    onError: (error) => { 
-      if (error?.data?.code === "UNAUTHORIZED"){
-        router.push(`/sign-in`);
-      }
-      toast.error(error.message);
-    },
-  }));
+  const purchase = useMutation(
+    trpc.checkout.purchase.mutationOptions({
+      onMutate: () => {
+        setStates({
+          cancel: false,
+          success: false,
+        });
+      },
+      onSuccess: (data) => {
+        window.location.href = data.url;
+      },
+
+      onError: (error) => {
+        if (error?.data?.code === "UNAUTHORIZED") {
+          router.push(`/sign-in`);
+        }
+        toast.error(error.message);
+      },
+    })
+  );
 
   useEffect(() => {
     if (states.success) {
@@ -59,9 +63,18 @@ export default function CheckoutView({ tenantSlug }: CheckoutViewProps) {
         success: false,
       });
       clearCart();
-      router.replace(`${generateTenantUrl(tenantSlug)}/checkout}`);
+      queryClient.invalidateQueries(trpc.library.getMany.infiniteQueryFilter());
+      router.replace(`/library`);
     }
-  }, [states.success, clearCart, router, setStates]);
+  }, [
+    states.success,
+    clearCart,
+    router,
+    setStates,
+    tenantSlug,
+    queryClient,
+    trpc.library.getMany,
+  ]);
 
   useEffect(() => {
     if (error?.data?.code === "NOT_FOUND") {

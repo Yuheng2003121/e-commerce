@@ -14,7 +14,11 @@ import dynamic from "next/dynamic";
 
 const CartButton = dynamic(() => import("../components/CartButton"), {
   ssr: false,
-  loading: () => <Button disabled variant={'elevated'} className="flex-1 bg-pink-400">Loading...</Button>,
+  loading: () => (
+    <Button disabled variant={"elevated"} className="flex-1 bg-pink-400">
+      Loading...
+    </Button>
+  ),
 });
 
 interface ProductViewProps {
@@ -99,11 +103,16 @@ export default function ProductView({
               )}
             </div>
           </div>
+
           <div className="col-span-2">
             <div className="border-t lg:border-t-0 lg:border-l h-full">
               <div className="flex flex-col gap-4 p-5 border-b">
                 <div className="flex gap-2 items-center">
-                  <CartButton tenantSlug={tenantSlug} productId={productId} />
+                  <CartButton
+                    tenantSlug={tenantSlug}
+                    productId={productId}
+                    isPurchased={data.isPurchased}
+                  />
                   <Button variant={"elevated"} className="size-12">
                     <LinkIcon />
                   </Button>
