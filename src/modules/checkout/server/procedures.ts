@@ -19,6 +19,9 @@ export const checkoutRouter = createTRPCRouter({
         collection: "products",
         depth: 2,
         where: { id: { in: input.ids } },
+        select: {
+          content: false,
+        },
       });
 
 
@@ -56,7 +59,7 @@ export const checkoutRouter = createTRPCRouter({
             { id: { in: input.productsIds } },
             { "tenant.slug": { equals: input.tenantSlug } }
           ]
-        }
+        },
       })
 
       

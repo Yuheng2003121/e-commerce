@@ -1,38 +1,43 @@
+import { isSuperAdmin } from "@/lib/access";
 import type { CollectionConfig } from "payload";
-
-
 
 export const Reviews: CollectionConfig = {
   slug: "reviews",
-  admin: {
-    useAsTitle: "description"
+  access: {
+    read: ({ req }) => isSuperAdmin(req.user),
+    create: ({ req }) => isSuperAdmin(req.user),
+    delete: ({ req }) => isSuperAdmin(req.user),
+    update: ({ req }) => isSuperAdmin(req.user),
   },
-  fields:[
+  admin: {
+    useAsTitle: "description",
+  },
+  fields: [
     {
       name: "description",
       type: "textarea",
-      required: true
-    }, 
+      required: true,
+    },
     {
       name: "rating",
       type: "number",
       required: true,
       min: 0,
-      max: 5
+      max: 5,
     },
     {
       name: "product",
       type: "relationship",
       relationTo: "products",
       hasMany: false,
-      required: true
+      required: true,
     },
     {
       name: "user",
       type: "relationship",
       relationTo: "users",
       hasMany: false,
-      required: true
-    }
-  ]
-}
+      required: true,
+    },
+  ],
+};

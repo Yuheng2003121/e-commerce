@@ -37,14 +37,18 @@ export default function ProductView({ productId }: ProductViewProps) {
         <div className="grid grid-cols lg:grid-cols-7 gap-4 lg:gap-16">
           <div className="lg:col-span-2">
             <div className="p-4 bg-white rounded-md border gap-4">
-              <ReviewSidebar productId={productId}/>
+              <ReviewSidebar productId={productId} />
             </div>
           </div>
 
           <div className="lg:col-span-5">
-            <p className="font-medium italic text-muted-foreground">
-              No special content
-            </p>
+            {data.content ? (
+              <p>{data.content}</p>
+            ) : (
+              <p className="font-medium italic text-muted-foreground">
+                No special content
+              </p>
+            )}
           </div>
         </div>
       </section>

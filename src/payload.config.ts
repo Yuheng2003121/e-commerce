@@ -14,6 +14,7 @@ import { Tags } from "./collections/Tags.ts";
 import { Tenants } from "./collections/Tenants.ts";
 import { Orders } from './collections/Orders.ts';
 import { Reviews } from './collections/Review.ts';
+import { isSuperAdmin } from './lib/access.ts';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -44,7 +45,7 @@ export default buildConfig({
       tenantsArrayField: {
         includeDefaultField: false,
       },
-      userHasAccessToAllTenants: (user) => Boolean(user?.roles?.includes('super-admin'))
+      userHasAccessToAllTenants: (user) => isSuperAdmin(user)
     }),
   ],
 });
