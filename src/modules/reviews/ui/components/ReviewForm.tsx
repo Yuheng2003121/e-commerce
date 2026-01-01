@@ -159,3 +159,29 @@ export default function ReviewForm({
     </Form>
   );
 }
+
+export function ReviewFormSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="font-medium">Liked it? Give a rating</p>
+
+      <StarPicker disabled={true} />
+
+      <Textarea placeholder="Write a review..." className="resize-none" />
+
+      <Button
+        variant={"elevated"}
+        disabled
+        type="submit"
+        size="lg"
+        className="bg-black text-white hover:bg-pink-400 hover:text-primary w-fit"
+      >
+        Post Review
+      </Button>
+
+      <Button size="lg" type="button" variant={"elevated"} className="w-fit">
+        Edit
+      </Button>
+    </div>
+  );
+}

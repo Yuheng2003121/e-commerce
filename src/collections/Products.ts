@@ -1,12 +1,14 @@
 import { isSuperAdmin } from "@/lib/access";
 import { Tenant } from "@/payload-types";
+import { lexicalEditor, UploadFeature } from "@payloadcms/richtext-lexical";
 import type { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {
   slug: "products",
   admin: {
     useAsTitle: "name",
-    description: "You must verify your Stripe account before you can create products."
+    description:
+      "You must verify your Stripe account before you can create products.",
   },
 
   access: {
@@ -15,6 +17,7 @@ export const Products: CollectionConfig = {
       const tenant = req.user?.tenants?.[0]?.tenant as Tenant;
       return Boolean(tenant?.stripeDetailsSubmitted);
     },
+    delete: ({ req }) => isSuperAdmin(req.user),
   },
 
   fields: [
@@ -25,7 +28,7 @@ export const Products: CollectionConfig = {
     },
     {
       name: "description",
-      type: "text",
+      type: "richText",
     },
     {
       name: "price",
@@ -61,10 +64,48 @@ export const Products: CollectionConfig = {
     },
     {
       name: "content",
-      type: "textarea",
+      type: "richText",
+      editor: lexicalEditor({
+        features:({defaultFeatures}) => [
+          ...defaultFeatures,
+          UploadFeature({
+            collections:{
+              media: {
+                fields: [
+                  {
+                    name: "alt",
+                    type: "text"
+                  }
+                ]
+              }
+            }
+          })
+        ]
+      }),
       admin: {
-        description: "Protected content only visible to customers after purcahse. Supports Markdown",
-      }
-    }
+        description:
+          "Protected content only visible to customers after purcahse. Supports Markdown",
+      },
+    },
+    {
+      name: "isPrivate",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        description:
+          "If checked, this product will not be shown on the public storefront",
+      },
+    },
+
+    {
+      name: "isArchived",
+      label: "Archived",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        description:
+          "If checked, this product will not be visible to customers.",
+      },
+    },
   ],
 };

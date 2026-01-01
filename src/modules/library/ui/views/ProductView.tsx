@@ -1,10 +1,12 @@
 "use client";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTRPC } from "@/trpc/client";
 import ReviewSidebar from "@/modules/reviews/ui/components/ReviewSidebar";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import { ReviewFormSkeleton } from "@/modules/reviews/ui/components/ReviewForm";
 
 interface ProductViewProps {
   productId: string;
@@ -37,13 +39,15 @@ export default function ProductView({ productId }: ProductViewProps) {
         <div className="grid grid-cols lg:grid-cols-7 gap-4 lg:gap-16">
           <div className="lg:col-span-2">
             <div className="p-4 bg-white rounded-md border gap-4">
-              <ReviewSidebar productId={productId} />
+              <Suspense fallback={<ReviewFormSkeleton/>}>
+                <ReviewSidebar productId={productId} />
+              </Suspense>
             </div>
           </div>
 
           <div className="lg:col-span-5">
             {data.content ? (
-              <p>{data.content}</p>
+              <RichText data={data.content} />
             ) : (
               <p className="font-medium italic text-muted-foreground">
                 No special content

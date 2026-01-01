@@ -12,6 +12,8 @@ import { CopyCheckIcon, LinkIcon, StarIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import dynamic from "next/dynamic";
 import Message from "@/components/Message";
+import { Skeleton } from "@/components/ui/skeleton";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 const CartButton = dynamic(() => import("../components/CartButton"), {
   ssr: false,
@@ -105,7 +107,7 @@ export default function ProductView({
 
             <div className="p-6">
               {data.description ? (
-                <p>{data.description}</p>
+                <RichText data={data.description} />
               ) : (
                 <p className="font-medium text-muted-foreground italic">
                   No descrition provided
@@ -175,3 +177,9 @@ export default function ProductView({
     </div>
   );
 }
+
+export const ProductViewSkeleton = () => (
+  <div className="px-4 lg:px-12 py-10">
+    <Skeleton className="w-full h-12 bg-neutral-300" />
+  </div>
+);
