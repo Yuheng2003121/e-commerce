@@ -1,5 +1,5 @@
 "use client"
-import { cn, isEmptyFilterValue } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react';
 import React, { useState } from 'react'
 import PriceFilter from './PriceFilter';

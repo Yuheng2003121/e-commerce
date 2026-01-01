@@ -1,21 +1,20 @@
-
-import {cookies as getCookies} from "next/headers"
+import { cookies as getCookies } from "next/headers";
 
 interface Props {
   prefix: string;
   value: string;
 }
 
-export const generateAuthCookie = async ({prefix, value}: Props) => {
-   const cookies = await getCookies();
-    cookies.set({
-      name: `${prefix}-token`,
-      value: value,
-      httpOnly: true,
-      path: "/", //表示整个网站所有路径都携带
-      sameSite: "none",
-      domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
-      secure: process.env.NODE_ENV === "production",
-    });
-
-}
+export const generateAuthCookie = async ({ prefix, value }: Props) => {
+  const isProd = process.env.NODE_ENV === "production";
+  const cookies = await getCookies();
+  cookies.set({
+    name: `${prefix}-token`,
+    value: value,
+    httpOnly: true,
+    path: "/", 
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd,
+    domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+  });
+};

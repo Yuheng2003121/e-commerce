@@ -2,7 +2,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import ProductList, { ProductListSkeleton } from "../components/ProductList";
-
+export const dynamic = "force-dynamic"; 
 export default function LibraryView() {
   return (
     <div className="min-h-screen bg-white">
