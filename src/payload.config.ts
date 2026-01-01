@@ -1,4 +1,4 @@
-import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { multiTenantPlugin } from "@payloadcms/plugin-multi-tenant";
 import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
@@ -13,9 +13,9 @@ import { Categories } from "./collections/Categories.ts";
 import { Products } from "./collections/Products.ts";
 import { Tags } from "./collections/Tags.ts";
 import { Tenants } from "./collections/Tenants.ts";
-import { Orders } from './collections/Orders.ts';
-import { Reviews } from './collections/Review.ts';
-import { isSuperAdmin } from './lib/access.ts';
+import { Orders } from "./collections/Orders.ts";
+import { Reviews } from "./collections/Review.ts";
+import { isSuperAdmin } from "./lib/access.ts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -62,11 +62,12 @@ export default buildConfig({
     }),
     uploadthingStorage({
       collections: {
-        media: true,
+        media: true
       },
+      clientUploads: true,
       options: {
         token: process.env.UPLOADTHING_TOKEN,
-        acl: 'public-read',
+        acl: "public-read",
       },
     }),
   ],
