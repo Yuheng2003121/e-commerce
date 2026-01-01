@@ -48,7 +48,7 @@ export default function ProductView({
             src={data.image?.url || "/place-holder.png"}
             alt={data.name}
             fill
-            className="object-cover"
+            className="object-contain"
           />
         </div>
 
