@@ -1,4 +1,5 @@
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -58,6 +59,15 @@ export default buildConfig({
         includeDefaultField: false,
       },
       userHasAccessToAllTenants: (user) => isSuperAdmin(user),
+    }),
+    uploadthingStorage({
+      collections: {
+        media: true,
+      },
+      options: {
+        token: process.env.UPLOADTHING_TOKEN,
+        acl: 'public-read',
+      },
     }),
   ],
 });

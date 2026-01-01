@@ -35,6 +35,9 @@ export default function ProductCard({
     router.push(generateTenantUrl(tenantSlug));
   };
 
+  // console.log('imageUrl', imageUrl)
+  
+
   return (
     <Link href={`${generateTenantUrl(tenantSlug)}/products/${id}`}>
       <div className="border rounded-md bg-white overflow-hidden flex flex-col hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] hover:-translate-y-2 hover:translate-x-1 transform transition-all duration-300">
